@@ -62,7 +62,7 @@ main:
 	syscall
 	move	$t2, $t0
 whileyearloop:
-	beq		$t2, $t1, endwhile
+	bgt	$t2, $t1, endwhile
 	li		$t3, 400
 	div		$t2, $t3
 	mfhi	$t4
