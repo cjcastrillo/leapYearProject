@@ -43,8 +43,8 @@ main:
 	li		$a0, '\n'
 	li		$v0, 11
 	syscall
-	lw		$t0, fromyr
-	lw		$t1, toyr
+	lw		$t0, fromyr		#load start of range into register
+	lw		$t1, toyr		#load end of range into regsiter
 	la		$a0, resultone
 	li		$v0, 4
 	syscall
@@ -60,7 +60,32 @@ main:
 	li		$a0, ':'
 	li		$v0, 11
 	syscall
+	move	$t2, $t0
+whileyearloop:
+	bne		$t2, $t1, endwhile
+	li		$t3, 400
+	div		$t2, $t3
+	mfhi	$t4
+	beqz	$t4, printyear
+	li		$t3, 100
+	div		$t2, $t3
+	mfhi	$t4
+	beqz	$t4, printyear
+	li		$t3, 4
+	div		$t2, $t3
+	mfhi	$t4
+	beqz	$t4, printyear
+	addi	$t2, $t2, 1		#prevent infinite loop
+	b		whileyearloop
+printyear:
 	li		$a0, '\n'
+	li		$v0, 11
 	syscall
+	move	$a0, $t2
+	li		$v0, 1
+	syscall
+	addi	$t2, $t2, 1		#prevent infinite loop
+	b		whileyearloop
+endwhile:	
 	li		$v0, 10
 	syscall
