@@ -89,3 +89,4 @@ printyear:
 endwhile:	
 	li		$v0, 10
 	syscall
+	
