@@ -43,46 +43,46 @@ main:
 	li		$a0, '\n'
 	li		$v0, 11
 	syscall
-	lw		$t0, fromyr		#load start of range into a register
-	lw		$t1, toyr		#load end of range into a regsiter
 	la		$a0, resultone
 	li		$v0, 4
 	syscall
-	move	$a0, $t0
+	lw		$a0, fromyr
 	li		$v0, 1
 	syscall
 	la		$a0, resulttwo
 	li		$v0, 4
 	syscall
-	move	$a0, $t1
+	lw		$a0, toyr
 	li		$v0, 1
 	syscall
 	li		$a0, ':'
 	li		$v0, 11
 	syscall
-	li		$t3, 1
-	sub		$t2, $t0, $t3	#Subtract one because everytime we start loop we add 1
+	lw		$t0, fromyr
+	lw		$t1, toyr		#Store values into registers for easier calculations
+	li		$t2, 1
+	sub		$t0, $t0, $t2	#Subtract one because everytime we start loop we add 1
 whileyearloop:
-	add		$t2, $t2, 1
-	bgt		$t2, $t1, endwhile
-	li		$t3, 400
-	div		$t2, $t3
-	mfhi	$t4
-	beqz	$t4, printyear
-	li		$t3, 100
-	div		$t2, $t3
-	mfhi	$t4
-	beqz	$t4, whileyearloop
-	li		$t3, 4
-	div		$t2, $t3
-	mfhi	$t4
-	beqz	$t4, printyear
+	add		$t0, $t0, 1
+	bgt		$t0, $t1, endwhile
+	li		$t2, 400
+	div		$t0, $t2
+	mfhi	$t3
+	beqz	$t3, printyear
+	li		$t2, 100
+	div		$t0, $t2
+	mfhi	$t3
+	beqz	$t3, whileyearloop
+	li		$t2, 4
+	div		$t0, $t2
+	mfhi	$t3
+	beqz	$t3, printyear
 	b		whileyearloop
 printyear:
 	li		$a0, '\n'
 	li		$v0, 11
 	syscall
-	move	$a0, $t2
+	move	$a0, $t0
 	li		$v0, 1
 	syscall
 	b		whileyearloop
